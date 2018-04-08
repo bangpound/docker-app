@@ -8,7 +8,7 @@ RUN \
   	apt-get -y install --no-install-recommends \
   	nginx supervisor zip unzip\
 	imagemagick webp libmagickwand-dev libyaml-dev \
-	python3 python3-numpy libopencv-dev python3-setuptools opencv-data \
+	python3 python3-pip python3-venv libopencv-dev python3-setuptools opencv-data \
     gcc nasm build-essential make wget vim git && \
     rm -rf /var/lib/apt/lists/*
 
@@ -31,12 +31,15 @@ RUN \
     make && \
     make install
 
+#upgrade pip
+RUN pip3 install --upgrade pip
+
 #facedetect script
 RUN \
 	cd /var && \
-    easy_install3 pip && \
-    pip install numpy && \
-    pip install opencv-python && \
+    pip3 install wheel && \
+    pip3 install numpy && \
+    pip3 install opencv-python && \
     git clone https://github.com/wavexx/facedetect.git && \
     chmod +x /var/facedetect/facedetect && \
     ln -s /var/facedetect/facedetect /usr/local/bin/facedetect
